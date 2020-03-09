@@ -1,7 +1,10 @@
 /** @jsx jsx */
 
 import { jsx } from "@emotion/core";
+import { Card, Elevation } from "@blueprintjs/core";
 
 export const QuotationBox = (props: { text: string }) => (
-  <section>{props.text}</section>
+  <Card interactive={false} elevation={Elevation.ZERO}>
+    <p>{props.text}</p>
+  </Card>
 );

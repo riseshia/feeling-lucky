@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 import { css, jsx, Global } from "@emotion/core";
-import { Button, Intent, Colors } from "@blueprintjs/core";
+import { Button, Intent, Colors, Navbar, Alignment } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
 import { QuotationBox } from "~/containers/QuotationBox";
@@ -15,11 +15,6 @@ const globalStyle = css`
   }
 `;
 
-const appStyle = css`
-  margin: 0 auto;
-  width: 1200px;
-`;
-
 export const App = (props: { dataStore: DataStore }) => {
   const [picked, setPicked] = useState(props.dataStore.pick());
   const shuffleOnClick = () => setPicked(props.dataStore.pick());
@@ -30,19 +25,23 @@ export const App = (props: { dataStore: DataStore }) => {
   }, [props.dataStore, setPicked]);
 
   return (
-    <section css={appStyle}>
+    <section>
+      <Navbar className="bp3-dark">
+        <Navbar.Group align={Alignment.LEFT}>
+          <Navbar.Heading>Lucky</Navbar.Heading>
+        </Navbar.Group>
+        <Navbar.Group align={Alignment.RIGHT}>
+          <Button
+            minimal
+            icon={IconNames.RANDOM}
+            intent={Intent.PRIMARY}
+            onClick={shuffleOnClick}
+          />
+        </Navbar.Group>
+      </Navbar>
       <Global styles={globalStyle} />
 
       <QuotationBox text={picked} />
-
-      <Button
-        large
-        icon={IconNames.THUMBS_UP}
-        intent={Intent.SUCCESS}
-        onClick={shuffleOnClick}
-      >
-        LGTM
-      </Button>
     </section>
   );
 };
