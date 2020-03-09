@@ -61648,9 +61648,16 @@ exports.App = props => {
   const shuffleOnClick = () => setPicked(props.dataStore.pick());
 
   const setFetchUrlWithLocalStorage = value => {
-    // localStorage.setItem("fetchUrl", value);
+    if (value == null) {
+      localStorage.removeItem("fetchUrl");
+    } else {
+      localStorage.setItem("fetchUrl", value);
+    }
+
     setFetchUrl(value);
   };
+
+  const resetFetchUrl = () => setFetchUrlWithLocalStorage(null);
 
   react_1.useEffect(() => {
     props.dataStore.update(["a", "b", "c", "d", "e"]);
@@ -61660,7 +61667,11 @@ exports.App = props => {
     className: "bp3-dark"
   }, core_1.jsx(core_2.Navbar.Group, {
     align: core_2.Alignment.LEFT
-  }, core_1.jsx(core_2.Navbar.Heading, null, "Lucky")), core_1.jsx(core_2.Navbar.Group, {
+  }, core_1.jsx(core_2.Navbar.Heading, null, "Lucky"), core_1.jsx(core_2.Button, {
+    minimal: true,
+    icon: icons_1.IconNames.RESET,
+    onClick: resetFetchUrl
+  })), core_1.jsx(core_2.Navbar.Group, {
     align: core_2.Alignment.RIGHT
   }, core_1.jsx(core_2.Button, {
     minimal: true,
@@ -61767,7 +61778,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51185" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54069" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

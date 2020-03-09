@@ -370,15 +370,15 @@ var t=arguments[3];Object.defineProperty(exports,"__esModule",{value:!0}),export
   padding: 10px;
 `;exports.FetchUrlForm=(s=>{const[u,i]=n.useState("");return e.jsx("section",{css:o},e.jsx(t.ControlGroup,null,e.jsx(t.InputGroup,{id:"text-input",fill:!0,placeholder:"https://...",value:u,onChange:e=>i(e.target.value)}),e.jsx(t.Button,{intent:t.Intent.PRIMARY,icon:r.IconNames.ARROW_RIGHT,onClick:()=>s.setFetchUrl(u)})))});
 },{"@emotion/core":"haMh","@blueprintjs/core":"vLFM","@blueprintjs/icons":"KzPL","react":"n8MK"}],"wQyl":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e=require("react"),t=require("@emotion/core"),r=require("@blueprintjs/core"),o=require("@blueprintjs/icons"),a=require("./QuotationBox"),s=require("./FetchUrlForm"),n=t.css`
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e=require("react"),t=require("@emotion/core"),r=require("@blueprintjs/core"),o=require("@blueprintjs/icons"),a=require("./QuotationBox"),l=require("./FetchUrlForm"),n=t.css`
   body {
     background-color: ${r.Colors.LIGHT_GRAY5};
     font-size: 14px;
   }
-`;exports.App=(i=>{const[c,l]=e.useState(i.dataStore.pick()),[u,p]=e.useState(localStorage.getItem("fetchUrl"));return e.useEffect(()=>{i.dataStore.update(["a","b","c","d","e"]),l(i.dataStore.pick())},[i.dataStore,l]),t.jsx("section",null,t.jsx(r.Navbar,{className:"bp3-dark"},t.jsx(r.Navbar.Group,{align:r.Alignment.LEFT},t.jsx(r.Navbar.Heading,null,"Lucky")),t.jsx(r.Navbar.Group,{align:r.Alignment.RIGHT},t.jsx(r.Button,{minimal:!0,icon:o.IconNames.RANDOM,intent:r.Intent.PRIMARY,onClick:()=>l(i.dataStore.pick())}))),t.jsx(t.Global,{styles:n}),u?t.jsx(a.QuotationBox,{text:c}):t.jsx(s.FetchUrlForm,{setFetchUrl:e=>{p(e)}}))});
+`;exports.App=(s=>{const[c,i]=e.useState(s.dataStore.pick()),[u,m]=e.useState(localStorage.getItem("fetchUrl")),x=e=>{null==e?localStorage.removeItem("fetchUrl"):localStorage.setItem("fetchUrl",e),m(e)};return e.useEffect(()=>{s.dataStore.update(["a","b","c","d","e"]),i(s.dataStore.pick())},[s.dataStore,i]),t.jsx("section",null,t.jsx(r.Navbar,{className:"bp3-dark"},t.jsx(r.Navbar.Group,{align:r.Alignment.LEFT},t.jsx(r.Navbar.Heading,null,"Lucky"),t.jsx(r.Button,{minimal:!0,icon:o.IconNames.RESET,onClick:()=>x(null)})),t.jsx(r.Navbar.Group,{align:r.Alignment.RIGHT},t.jsx(r.Button,{minimal:!0,icon:o.IconNames.RANDOM,intent:r.Intent.PRIMARY,onClick:()=>i(s.dataStore.pick())}))),t.jsx(t.Global,{styles:n}),u?t.jsx(a.QuotationBox,{text:c}):t.jsx(l.FetchUrlForm,{setFetchUrl:x}))});
 },{"react":"n8MK","@emotion/core":"haMh","@blueprintjs/core":"vLFM","@blueprintjs/icons":"KzPL","./QuotationBox":"Aymg","./FetchUrlForm":"jvJ7"}],"I6ry":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});class t{constructor(){this.quotations=[]}update(t){this.quotations=t}pick(){return this.quotations[this.pickIdx()]}pickIdx(){const t=this.quotations.length;return Math.floor(Math.random()*Math.floor(t))}}exports.DataStore=t;
 },{}],"zo2T":[function(require,module,exports) {
 "use strict";var e=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(exports,"__esModule",{value:!0});const t=e(require("react")),r=require("react-dom"),o=require("~containers/App"),a=require("~DataStore"),u=document.getElementById("root"),n=new a.DataStore;function d(){r.render(t.default.createElement(o.App,{dataStore:n}),u)}n.update(["Now loading..."]),d(),module.hot&&module.hot.accept(d);
 },{"react":"n8MK","react-dom":"jgeU","~containers/App":"wQyl","~DataStore":"I6ry"}]},{},["zo2T"], null)
-//# sourceMappingURL=/src.a0c03b5a.js.map
+//# sourceMappingURL=/src.a0637162.js.map
