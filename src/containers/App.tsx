@@ -5,7 +5,9 @@ import { css, jsx, Global } from "@emotion/core";
 import { Button, Intent, Colors, Navbar, Alignment } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
-import { QuotationBox } from "~/containers/QuotationBox";
+import { QuotationBox } from "./QuotationBox";
+import { FetchUrlForm } from "./FetchUrlForm";
+
 import { DataStore } from "~DataStore";
 
 const globalStyle = css`
@@ -15,9 +17,16 @@ const globalStyle = css`
   }
 `;
 
+type Url = string | null;
+
 export const App = (props: { dataStore: DataStore }) => {
   const [picked, setPicked] = useState(props.dataStore.pick());
+  const [fetchUrl, setFetchUrl] = useState(localStorage.getItem("fetchUrl"));
   const shuffleOnClick = () => setPicked(props.dataStore.pick());
+  const setFetchUrlWithLocalStorage = (value: string) => {
+    // localStorage.setItem("fetchUrl", value);
+    setFetchUrl(value);
+  };
 
   useEffect(() => {
     props.dataStore.update(["a", "b", "c", "d", "e"]);
@@ -41,7 +50,11 @@ export const App = (props: { dataStore: DataStore }) => {
       </Navbar>
       <Global styles={globalStyle} />
 
-      <QuotationBox text={picked} />
+      {fetchUrl ? (
+        <QuotationBox text={picked} />
+      ) : (
+        <FetchUrlForm setFetchUrl={setFetchUrlWithLocalStorage} />
+      )}
     </section>
   );
 };
