@@ -23,10 +23,15 @@ export const App = (props: { dataStore: DataStore }) => {
   const [picked, setPicked] = useState(props.dataStore.pick());
   const [fetchUrl, setFetchUrl] = useState(localStorage.getItem("fetchUrl"));
   const shuffleOnClick = () => setPicked(props.dataStore.pick());
-  const setFetchUrlWithLocalStorage = (value: string) => {
-    // localStorage.setItem("fetchUrl", value);
+  const setFetchUrlWithLocalStorage = (value: Url) => {
+    if (value == null) {
+      localStorage.removeItem("fetchUrl");
+    } else {
+      localStorage.setItem("fetchUrl", value);
+    }
     setFetchUrl(value);
   };
+  const resetFetchUrl = () => setFetchUrlWithLocalStorage(null);
 
   useEffect(() => {
     props.dataStore.update(["a", "b", "c", "d", "e"]);
@@ -38,6 +43,11 @@ export const App = (props: { dataStore: DataStore }) => {
       <Navbar className="bp3-dark">
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>Lucky</Navbar.Heading>
+          <Button
+            minimal
+            icon={IconNames.RESET}
+            onClick={resetFetchUrl}
+          />
         </Navbar.Group>
         <Navbar.Group align={Alignment.RIGHT}>
           <Button
