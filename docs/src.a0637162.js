@@ -381,4 +381,4 @@ var t=arguments[3];Object.defineProperty(exports,"__esModule",{value:!0}),export
 },{}],"zo2T":[function(require,module,exports) {
 "use strict";var e=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(exports,"__esModule",{value:!0});const t=e(require("react")),r=require("react-dom"),o=require("~containers/App"),a=require("~DataStore"),u=document.getElementById("root"),n=new a.DataStore;function d(){r.render(t.default.createElement(o.App,{dataStore:n}),u)}n.update(["Now loading..."]),d(),module.hot&&module.hot.accept(d);
 },{"react":"n8MK","react-dom":"jgeU","~containers/App":"wQyl","~DataStore":"I6ry"}]},{},["zo2T"], null)
-//# sourceMappingURL=/src.a0637162.js.map
+//# sourceMappingURL=src.a0637162.js.map
