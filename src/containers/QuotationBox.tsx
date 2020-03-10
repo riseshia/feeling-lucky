@@ -4,11 +4,11 @@ import { jsx, css } from "@emotion/core";
 import { Card, Elevation } from "@blueprintjs/core";
 
 const textStyle = css`
-  white-space: pre;
+p { margin: 3px 0 3px 0; }
 `;
 
 export const QuotationBox = (props: { text: string }) => (
   <Card interactive={false} elevation={Elevation.ZERO} css={textStyle}>
-    {props.text}
+    {props.text.split("\n").map((item) => (<p>{item}</p>))}
   </Card>
 );
