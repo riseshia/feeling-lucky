@@ -61570,14 +61570,14 @@ const core_1 = require("@emotion/core");
 const core_2 = require("@blueprintjs/core");
 
 const textStyle = core_1.css`
-  white-space: pre;
+p { margin: 3px 0 3px 0; }
 `;
 
 exports.QuotationBox = props => core_1.jsx(core_2.Card, {
   interactive: false,
   elevation: core_2.Elevation.ZERO,
   css: textStyle
-}, props.text);
+}, props.text.split("\n").map(item => core_1.jsx("p", null, item)));
 },{"@emotion/core":"../node_modules/@emotion/core/dist/core.browser.esm.js","@blueprintjs/core":"../node_modules/@blueprintjs/core/lib/esm/index.js"}],"containers/FetchDocIdForm.tsx":[function(require,module,exports) {
 "use strict";
 /** @jsx jsx */
@@ -61675,25 +61675,18 @@ exports.App = props => {
   };
 
   react_1.useEffect(() => {
-    let initData = ["Now \nloading..."]; // if (localStorage.getItem("dataCache")) {
-    //   initData = localStorage.getItem("dataCache")!.split("|||");
-    // }
+    let initData = ["Now loading..."];
+
+    if (localStorage.getItem("dataCache")) {
+      initData = localStorage.getItem("dataCache").split("|||");
+    }
 
     props.dataStore.update(initData);
-    setPicked(props.dataStore.pick()); // if (fetchDocId) {
-    //   fetch(
-    //     `https://spreadsheets.google.com/feeds/cells/${fetchDocId}/1/public/full?alt=json`,
-    //   )
-    //     .then(res => res.json())
-    //     .then(data => extractDataFormDoc(data))
-    //     .then(data => saveDataToLocalStorage(data))
-    //     .then(data => props.dataStore.update(data))
-    //     .then(() =>
-    //       props.dataStore.pick() === "Now loading..."
-    //         ? setPicked(props.dataStore.pick())
-    //         : null,
-    //     );
-    // }
+    setPicked(props.dataStore.pick());
+
+    if (fetchDocId) {
+      fetch(`https://spreadsheets.google.com/feeds/cells/${fetchDocId}/1/public/full?alt=json`).then(res => res.json()).then(data => extractDataFormDoc(data)).then(data => saveDataToLocalStorage(data)).then(data => props.dataStore.update(data)).then(() => props.dataStore.pick() === "Now loading..." ? setPicked(props.dataStore.pick()) : null);
+    }
   }, [props.dataStore, setPicked, fetchDocId]);
   return core_1.jsx("section", null, core_1.jsx(core_2.Navbar, {
     className: "bp3-dark"
@@ -61810,7 +61803,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61857" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64627" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -365,8 +365,8 @@ var t=arguments[3];Object.defineProperty(exports,"__esModule",{value:!0}),export
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});var e=require("./accessibility");Object.keys(e).forEach(function(r){"default"!==r&&"__esModule"!==r&&Object.defineProperty(exports,r,{enumerable:!0,get:function(){return e[r]}})});var r=require("./common");Object.keys(r).forEach(function(e){"default"!==e&&"__esModule"!==e&&Object.defineProperty(exports,e,{enumerable:!0,get:function(){return r[e]}})});var t=require("./components");Object.keys(t).forEach(function(e){"default"!==e&&"__esModule"!==e&&Object.defineProperty(exports,e,{enumerable:!0,get:function(){return t[e]}})});
 },{"./accessibility":"Oqci","./common":"J49J","./components":"CRDh"}],"Aymg":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e=require("@emotion/core"),t=require("@blueprintjs/core"),r=e.css`
-  white-space: pre;
-`;exports.QuotationBox=(o=>e.jsx(t.Card,{interactive:!1,elevation:t.Elevation.ZERO,css:r},o.text));
+p { margin: 3px 0 3px 0; }
+`;exports.QuotationBox=(o=>e.jsx(t.Card,{interactive:!1,elevation:t.Elevation.ZERO,css:r},o.text.split("\n").map(t=>e.jsx("p",null,t))));
 },{"@emotion/core":"haMh","@blueprintjs/core":"vLFM"}],"xJHS":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e=require("@emotion/core"),t=require("@blueprintjs/core"),o=require("@blueprintjs/icons"),r=require("react"),n=e.css`
   padding: 10px;
@@ -383,4 +383,4 @@ var t=arguments[3];Object.defineProperty(exports,"__esModule",{value:!0}),export
 },{}],"zo2T":[function(require,module,exports) {
 "use strict";var e=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(exports,"__esModule",{value:!0});const t=e(require("react")),r=require("react-dom"),o=require("~containers/App"),a=require("~DataStore"),u=document.getElementById("root"),n=new a.DataStore;function d(){r.render(t.default.createElement(o.App,{dataStore:n}),u)}n.update(["Now loading..."]),d(),module.hot&&module.hot.accept(d);
 },{"react":"n8MK","react-dom":"jgeU","~containers/App":"wQyl","~DataStore":"I6ry"}]},{},["zo2T"], null)
-//# sourceMappingURL=src.cded98de.js.map
+//# sourceMappingURL=src.2ff1285b.js.map
