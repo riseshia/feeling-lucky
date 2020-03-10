@@ -6,7 +6,7 @@ import { Button, Intent, Colors, Navbar, Alignment } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
 import { QuotationBox } from "./QuotationBox";
-import { FetchUrlForm } from "./FetchUrlForm";
+import { FetchDocIdForm } from "./FetchDocIdForm";
 
 import { DataStore } from "~DataStore";
 
@@ -21,22 +21,24 @@ type Url = string | null;
 
 export const App = (props: { dataStore: DataStore }) => {
   const [picked, setPicked] = useState(props.dataStore.pick());
-  const [fetchUrl, setFetchUrl] = useState(localStorage.getItem("fetchUrl"));
+  const [fetchDocId, setFetchDocId] = useState(localStorage.getItem("fetchDocId"));
   const shuffleOnClick = () => setPicked(props.dataStore.pick());
-  const setFetchUrlWithLocalStorage = (value: Url) => {
+  const setFetchDocIdWithLocalStorage = (value: Url) => {
     if (value == null) {
-      localStorage.removeItem("fetchUrl");
+      localStorage.removeItem("fetchDocId");
     } else {
-      localStorage.setItem("fetchUrl", value);
+      localStorage.setItem("fetchDocId", value);
     }
-    setFetchUrl(value);
+    setFetchDocId(value);
   };
-  const resetFetchUrl = () => setFetchUrlWithLocalStorage(null);
+  const resetFetchDocId = () => setFetchDocIdWithLocalStorage(null);
 
   useEffect(() => {
-    props.dataStore.update(["a", "b", "c", "d", "e"]);
-    setPicked(props.dataStore.pick());
-  }, [props.dataStore, setPicked]);
+    if (fetchDocId) {
+      props.dataStore.update(["a", "b", "c", "d", "e"]);
+      setPicked(props.dataStore.pick());
+    }
+  }, [props.dataStore, setPicked, fetchDocId]);
 
   return (
     <section>
@@ -46,7 +48,7 @@ export const App = (props: { dataStore: DataStore }) => {
           <Button
             minimal
             icon={IconNames.RESET}
-            onClick={resetFetchUrl}
+            onClick={resetFetchDocId}
           />
         </Navbar.Group>
         <Navbar.Group align={Alignment.RIGHT}>
@@ -60,10 +62,10 @@ export const App = (props: { dataStore: DataStore }) => {
       </Navbar>
       <Global styles={globalStyle} />
 
-      {fetchUrl ? (
+      {fetchDocId ? (
         <QuotationBox text={picked} />
       ) : (
-        <FetchUrlForm setFetchUrl={setFetchUrlWithLocalStorage} />
+        <FetchDocIdForm setFetchDocId={setFetchDocIdWithLocalStorage} />
       )}
     </section>
   );

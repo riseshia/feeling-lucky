@@ -9,10 +9,10 @@ const formStyle = css`
   padding: 10px;
 `;
 
-export const FetchUrlForm = (props: { setFetchUrl: any }) => {
-  const [url, setUrl] = useState("");
-  const updateFetchUrl = () => props.setFetchUrl(url);
-  const onChangeUrl = (event: any) => setUrl(event.target.value);
+export const FetchDocIdForm = (props: { setFetchDocId: any }) => {
+  const [docId, setDocId] = useState("");
+  const updateFetchDocId = () => props.setFetchDocId(docId);
+  const onChangeUrl = (event: any) => setDocId(event.target.value);
 
   return (
     <section css={formStyle}>
@@ -20,14 +20,14 @@ export const FetchUrlForm = (props: { setFetchUrl: any }) => {
         <InputGroup
           id="text-input"
           fill
-          placeholder="https://..."
-          value={url}
+          placeholder="google document id"
+          value={docId}
           onChange={onChangeUrl}
         />
         <Button
           intent={Intent.PRIMARY}
           icon={IconNames.ARROW_RIGHT}
-          onClick={updateFetchUrl}
+          onClick={updateFetchDocId}
         />
       </ControlGroup>
     </section>
