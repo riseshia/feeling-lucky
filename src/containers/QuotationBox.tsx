@@ -5,6 +5,6 @@ import { Card, Elevation } from "@blueprintjs/core";
 
 export const QuotationBox = (props: { text: string }) => (
   <Card interactive={false} elevation={Elevation.ZERO}>
-    <p>{props.text}</p>
+    {props.text}
   </Card>
 );
