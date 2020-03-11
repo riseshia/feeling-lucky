@@ -4,7 +4,7 @@ import { jsx, css } from "@emotion/core";
 import { Card, Elevation } from "@blueprintjs/core";
 
 const textStyle = css`
-p { margin: 3px 0 3px 0; }
+p { margin: 5px 0 5px 0; }
 `;
 
 export const QuotationBox = (props: { text: string }) => (

@@ -13,7 +13,7 @@ import { DataStore } from "~DataStore";
 const globalStyle = css`
   body {
     background-color: ${Colors.LIGHT_GRAY5};
-    font-size: 17px;
+    font-size: 16px;
   }
 `;
 

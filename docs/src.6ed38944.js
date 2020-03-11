@@ -365,7 +365,7 @@ var t=arguments[3];Object.defineProperty(exports,"__esModule",{value:!0}),export
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});var e=require("./accessibility");Object.keys(e).forEach(function(r){"default"!==r&&"__esModule"!==r&&Object.defineProperty(exports,r,{enumerable:!0,get:function(){return e[r]}})});var r=require("./common");Object.keys(r).forEach(function(e){"default"!==e&&"__esModule"!==e&&Object.defineProperty(exports,e,{enumerable:!0,get:function(){return r[e]}})});var t=require("./components");Object.keys(t).forEach(function(e){"default"!==e&&"__esModule"!==e&&Object.defineProperty(exports,e,{enumerable:!0,get:function(){return t[e]}})});
 },{"./accessibility":"Oqci","./common":"J49J","./components":"CRDh"}],"Aymg":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e=require("@emotion/core"),t=require("@blueprintjs/core"),r=e.css`
-p { margin: 3px 0 3px 0; }
+p { margin: 5px 0 5px 0; }
 `;exports.QuotationBox=(o=>e.jsx(t.Card,{interactive:!1,elevation:t.Elevation.ZERO,css:r},o.text.split("\n").map(t=>e.jsx("p",null,t))));
 },{"@emotion/core":"haMh","@blueprintjs/core":"vLFM"}],"xJHS":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e=require("@emotion/core"),t=require("@blueprintjs/core"),o=require("@blueprintjs/icons"),r=require("react"),n=e.css`
@@ -375,7 +375,7 @@ p { margin: 3px 0 3px 0; }
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e=require("react"),t=require("@emotion/core"),o=require("@blueprintjs/core"),a=require("@blueprintjs/icons"),r=require("./QuotationBox"),l=require("./FetchDocIdForm"),c=t.css`
   body {
     background-color: ${o.Colors.LIGHT_GRAY5};
-    font-size: 17px;
+    font-size: 16px;
   }
 `;exports.App=(n=>{const[s,i]=e.useState(n.dataStore.pick()),[u,d]=e.useState(localStorage.getItem("fetchDocId")),p=e=>{null==e?localStorage.removeItem("fetchDocId"):localStorage.setItem("fetchDocId",e),d(e)};return e.useEffect(()=>{let e=["Now loading..."];localStorage.getItem("dataCache")&&(e=localStorage.getItem("dataCache").split("|||")),n.dataStore.update(e),i(n.dataStore.pick()),u&&fetch(`https://spreadsheets.google.com/feeds/cells/${u}/1/public/full?alt=json`).then(e=>e.json()).then(e=>(e=>{return e.feed.entry.filter(e=>"1"==e.gs$cell.col).map(e=>e.content.$t)})(e)).then(e=>(e=>(localStorage.setItem("dataCache",e.join("|||")),e))(e)).then(e=>n.dataStore.update(e)).then(()=>"Now loading..."===n.dataStore.pick()?i(n.dataStore.pick()):null)},[n.dataStore,i,u]),t.jsx("section",null,t.jsx(o.Navbar,{className:"bp3-dark"},t.jsx(o.Navbar.Group,{align:o.Alignment.LEFT},t.jsx(o.Navbar.Heading,null,"Lucky"),t.jsx(o.Button,{minimal:!0,icon:a.IconNames.RESET,onClick:()=>p(null)})),t.jsx(o.Navbar.Group,{align:o.Alignment.RIGHT},t.jsx(o.Button,{minimal:!0,icon:a.IconNames.RANDOM,intent:o.Intent.PRIMARY,onClick:()=>i(n.dataStore.pick())}))),t.jsx(t.Global,{styles:c}),u?t.jsx(r.QuotationBox,{text:s}):t.jsx(l.FetchDocIdForm,{setFetchDocId:p}))});
 },{"react":"n8MK","@emotion/core":"haMh","@blueprintjs/core":"vLFM","@blueprintjs/icons":"KzPL","./QuotationBox":"Aymg","./FetchDocIdForm":"xJHS"}],"I6ry":[function(require,module,exports) {
@@ -383,4 +383,4 @@ p { margin: 3px 0 3px 0; }
 },{}],"zo2T":[function(require,module,exports) {
 "use strict";var e=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(exports,"__esModule",{value:!0});const t=e(require("react")),r=require("react-dom"),o=require("~containers/App"),a=require("~DataStore"),u=document.getElementById("root"),n=new a.DataStore;function d(){r.render(t.default.createElement(o.App,{dataStore:n}),u)}n.update(["Now loading..."]),d(),module.hot&&module.hot.accept(d);
 },{"react":"n8MK","react-dom":"jgeU","~containers/App":"wQyl","~DataStore":"I6ry"}]},{},["zo2T"], null)
-//# sourceMappingURL=src.3f7d3dbd.js.map
+//# sourceMappingURL=src.6ed38944.js.map
