@@ -61571,8 +61571,9 @@ const core_2 = require("@blueprintjs/core");
 
 const textStyle = core_1.css`
   p {
-    margin: 3px 0 3px 0;
+    margin: 2px 0 2px 0;
     min-height: 10px;
+    line-height: 1.4;
   }
 `;
 
@@ -61649,6 +61650,7 @@ const globalStyle = core_1.css`
     background-color: ${core_2.Colors.LIGHT_GRAY5};
     font-size: 16px;
     padding-top: 50px;
+    padding-bottom: 50px;
   }
 `;
 const shuffleButtonStyle = core_1.css`
@@ -61829,7 +61831,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65461" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64154" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -366,8 +366,9 @@ var t=arguments[3];Object.defineProperty(exports,"__esModule",{value:!0}),export
 },{"./accessibility":"Oqci","./common":"J49J","./components":"CRDh"}],"Aymg":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e=require("@emotion/core"),t=require("@blueprintjs/core"),i=e.css`
   p {
-    margin: 3px 0 3px 0;
+    margin: 2px 0 2px 0;
     min-height: 10px;
+    line-height: 1.4;
   }
 `;exports.QuotationBox=(r=>e.jsx(t.Card,{interactive:!1,elevation:t.Elevation.ZERO,css:i},r.text.split("\n").map((t,i)=>e.jsx("p",{key:i},t))));
 },{"@emotion/core":"haMh","@blueprintjs/core":"vLFM"}],"xJHS":[function(require,module,exports) {
@@ -380,17 +381,18 @@ var t=arguments[3];Object.defineProperty(exports,"__esModule",{value:!0}),export
     background-color: ${o.Colors.LIGHT_GRAY5};
     font-size: 16px;
     padding-top: 50px;
+    padding-bottom: 50px;
   }
-`,s=t.css`
+`,n=t.css`
   position: fixed;
   bottom: 0;
   width: 100%;
   height: 50px;
   border-radius: 0;
-`;exports.App=(n=>{const[i,d]=e.useState(n.dataStore.pick()),[u,p]=e.useState(localStorage.getItem("fetchDocId")),g=e=>{null==e?localStorage.removeItem("fetchDocId"):localStorage.setItem("fetchDocId",e),p(e)};return e.useEffect(()=>{let e=["Now loading..."];localStorage.getItem("dataCache")&&(e=localStorage.getItem("dataCache").split("|||")),n.dataStore.update(e),d(n.dataStore.pick()),u&&fetch(`https://spreadsheets.google.com/feeds/cells/${u}/1/public/full?alt=json`).then(e=>e.json()).then(e=>(e=>{return e.feed.entry.filter(e=>"1"==e.gs$cell.col).map(e=>e.content.$t)})(e)).then(e=>(e=>(localStorage.setItem("dataCache",e.join("|||")),e))(e)).then(e=>n.dataStore.update(e)).then(()=>"Now loading..."===n.dataStore.pick()?d(n.dataStore.pick()):null)},[n.dataStore,d,u]),t.jsx("section",null,t.jsx(o.Navbar,{className:"bp3-dark",fixedToTop:!0},t.jsx(o.Navbar.Group,{align:o.Alignment.LEFT},t.jsx(o.Navbar.Heading,null,"Lucky"),t.jsx(o.Button,{minimal:!0,icon:a.IconNames.RESET,onClick:()=>g(null)}))),t.jsx(t.Global,{styles:l}),u?t.jsx(r.QuotationBox,{text:i}):t.jsx(c.FetchDocIdForm,{setFetchDocId:g}),t.jsx(o.Button,{rightIcon:a.IconNames.RANDOM,large:!0,intent:o.Intent.PRIMARY,onClick:()=>d(n.dataStore.pick()),css:s,text:"Next"}))});
+`;exports.App=(s=>{const[i,d]=e.useState(s.dataStore.pick()),[u,p]=e.useState(localStorage.getItem("fetchDocId")),g=e=>{null==e?localStorage.removeItem("fetchDocId"):localStorage.setItem("fetchDocId",e),p(e)};return e.useEffect(()=>{let e=["Now loading..."];localStorage.getItem("dataCache")&&(e=localStorage.getItem("dataCache").split("|||")),s.dataStore.update(e),d(s.dataStore.pick()),u&&fetch(`https://spreadsheets.google.com/feeds/cells/${u}/1/public/full?alt=json`).then(e=>e.json()).then(e=>(e=>{return e.feed.entry.filter(e=>"1"==e.gs$cell.col).map(e=>e.content.$t)})(e)).then(e=>(e=>(localStorage.setItem("dataCache",e.join("|||")),e))(e)).then(e=>s.dataStore.update(e)).then(()=>"Now loading..."===s.dataStore.pick()?d(s.dataStore.pick()):null)},[s.dataStore,d,u]),t.jsx("section",null,t.jsx(o.Navbar,{className:"bp3-dark",fixedToTop:!0},t.jsx(o.Navbar.Group,{align:o.Alignment.LEFT},t.jsx(o.Navbar.Heading,null,"Lucky"),t.jsx(o.Button,{minimal:!0,icon:a.IconNames.RESET,onClick:()=>g(null)}))),t.jsx(t.Global,{styles:l}),u?t.jsx(r.QuotationBox,{text:i}):t.jsx(c.FetchDocIdForm,{setFetchDocId:g}),t.jsx(o.Button,{rightIcon:a.IconNames.RANDOM,large:!0,intent:o.Intent.PRIMARY,onClick:()=>d(s.dataStore.pick()),css:n,text:"Next"}))});
 },{"react":"n8MK","@emotion/core":"haMh","@blueprintjs/core":"vLFM","@blueprintjs/icons":"KzPL","./QuotationBox":"Aymg","./FetchDocIdForm":"xJHS"}],"I6ry":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});class t{constructor(){this.quotations=[],this.queue=[]}update(t){this.quotations=t,this.shuffle()}pick(){return 0===this.queue.length&&this.shuffle(),this.queue.pop()}shuffle(){const t=this.quotations.map(t=>[t,Math.random()]);t.sort(([t,s],[e,o])=>s-o),this.queue=t.map(([t,s])=>t)}pickIdx(){const t=this.quotations.length;return Math.floor(Math.random()*Math.floor(t))}}exports.DataStore=t;
 },{}],"zo2T":[function(require,module,exports) {
 "use strict";var e=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(exports,"__esModule",{value:!0});const t=e(require("react")),r=require("react-dom"),o=require("~containers/App"),a=require("~DataStore"),u=document.getElementById("root"),n=new a.DataStore;function d(){r.render(t.default.createElement(o.App,{dataStore:n}),u)}n.update(["Now loading..."]),d(),module.hot&&module.hot.accept(d);
 },{"react":"n8MK","react-dom":"jgeU","~containers/App":"wQyl","~DataStore":"I6ry"}]},{},["zo2T"], null)
-//# sourceMappingURL=src.c5325b45.js.map
+//# sourceMappingURL=src.8a2591ca.js.map
