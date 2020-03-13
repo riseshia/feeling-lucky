@@ -15,6 +15,7 @@ const globalStyle = css`
     background-color: ${Colors.LIGHT_GRAY5};
     font-size: 16px;
     padding-top: 50px;
+    padding-bottom: 50px;
   }
 `;
 
