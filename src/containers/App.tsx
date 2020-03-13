@@ -18,6 +18,14 @@ const globalStyle = css`
   }
 `;
 
+const shuffleButtonStyle = css`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  border-radius: 0;
+`
+
 type Url = string | null;
 
 export const App = (props: { dataStore: DataStore }) => {
@@ -76,14 +84,6 @@ export const App = (props: { dataStore: DataStore }) => {
           <Navbar.Heading>Lucky</Navbar.Heading>
           <Button minimal icon={IconNames.RESET} onClick={resetFetchDocId} />
         </Navbar.Group>
-        <Navbar.Group align={Alignment.RIGHT}>
-          <Button
-            minimal
-            icon={IconNames.RANDOM}
-            intent={Intent.PRIMARY}
-            onClick={shuffleOnClick}
-          />
-        </Navbar.Group>
       </Navbar>
       <Global styles={globalStyle} />
 
@@ -92,6 +92,14 @@ export const App = (props: { dataStore: DataStore }) => {
       ) : (
         <FetchDocIdForm setFetchDocId={setFetchDocIdWithLocalStorage} />
       )}
+      <Button
+        rightIcon={IconNames.RANDOM}
+        large
+        intent={Intent.PRIMARY}
+        onClick={shuffleOnClick}
+        css={shuffleButtonStyle}
+        text="Next"
+      />
     </section>
   );
 };
