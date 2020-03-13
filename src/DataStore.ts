@@ -19,7 +19,10 @@ export class DataStore {
   }
 
   private shuffle() {
-    const quotationWithOrder: Array<[string, number]> = this.quotations.map(q => [q, Math.random()]);
+    const quotationWithOrder: Array<[
+      string,
+      number,
+    ]> = this.quotations.map(q => [q, Math.random()]);
     quotationWithOrder.sort(([_q1, a], [_q2, b]) => a - b);
     this.queue = quotationWithOrder.map(([q, _order]) => q);
   }

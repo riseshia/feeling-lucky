@@ -24,7 +24,7 @@ const shuffleButtonStyle = css`
   width: 100%;
   height: 50px;
   border-radius: 0;
-`
+`;
 
 type Url = string | null;
 
