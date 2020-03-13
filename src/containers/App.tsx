@@ -14,6 +14,7 @@ const globalStyle = css`
   body {
     background-color: ${Colors.LIGHT_GRAY5};
     font-size: 16px;
+    padding-top: 50px;
   }
 `;
 
@@ -70,7 +71,7 @@ export const App = (props: { dataStore: DataStore }) => {
 
   return (
     <section>
-      <Navbar className="bp3-dark">
+      <Navbar className="bp3-dark" fixedToTop>
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>Lucky</Navbar.Heading>
           <Button minimal icon={IconNames.RESET} onClick={resetFetchDocId} />
