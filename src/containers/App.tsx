@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { css, jsx, Global } from "@emotion/core";
 import { Button, Intent, Colors, Navbar, Alignment } from "@blueprintjs/core";
@@ -9,6 +9,8 @@ import { QuotationBox } from "./QuotationBox";
 import { FetchDocIdForm } from "./FetchDocIdForm";
 
 import { fetchQuotations } from "../api/quotations";
+
+import { useFetchDocId } from "../hooks/fetchDocId";
 
 import { DataStore } from "~DataStore";
 
@@ -33,19 +35,9 @@ type Url = string | null;
 
 export const App = (props: { dataStore: DataStore }) => {
   const [picked, setPicked] = useState(props.dataStore.pick());
-  const [fetchDocId, setFetchDocId] = useState(
-    localStorage.getItem("fetchDocId"),
-  );
-  const shuffleOnClick = () => setPicked(props.dataStore.pick());
-  const setFetchDocIdWithLocalStorage = (value: Url) => {
-    if (value == null) {
-      localStorage.removeItem("fetchDocId");
-    } else {
-      localStorage.setItem("fetchDocId", value);
-    }
-    setFetchDocId(value);
-  };
-  const resetFetchDocId = () => setFetchDocIdWithLocalStorage(null);
+  const [fetchDocId, setFetchDocId] = useFetchDocId();
+  const shuffleOnClick = useCallback(() => setPicked(props.dataStore.pick()), []);
+  const resetFetchDocId = () => setFetchDocId(null);
   const saveDataToLocalStorage = (values: string[]): string[] => {
     localStorage.setItem("dataCache", values.join("|||"));
     return values;
@@ -83,7 +75,7 @@ export const App = (props: { dataStore: DataStore }) => {
       {fetchDocId ? (
         <QuotationBox text={picked} />
       ) : (
-        <FetchDocIdForm setFetchDocId={setFetchDocIdWithLocalStorage} />
+        <FetchDocIdForm setFetchDocId={setFetchDocId} />
       )}
       <Button
         rightIcon={IconNames.RANDOM}
