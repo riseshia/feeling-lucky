@@ -67,7 +67,7 @@ export const App = (props: { dataStore: DataStore }) => {
       <Navbar className="bp3-dark" fixedToTop>
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>Lucky</Navbar.Heading>
-          <Button minimal icon={IconNames.RESET} onClick={resetFetchDocId} />
+          <Button minimal icon={IconNames.EDIT} onClick={resetFetchDocId} />
         </Navbar.Group>
       </Navbar>
       <Global styles={globalStyle} />
