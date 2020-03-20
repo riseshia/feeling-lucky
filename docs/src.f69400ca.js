@@ -61625,7 +61625,49 @@ exports.FetchDocIdForm = props => {
     onClick: updateFetchDocId
   })));
 };
-},{"@emotion/core":"../node_modules/@emotion/core/dist/core.browser.esm.js","@blueprintjs/core":"../node_modules/@blueprintjs/core/lib/esm/index.js","@blueprintjs/icons":"../node_modules/@blueprintjs/icons/lib/esm/index.js","react":"../node_modules/react/index.js"}],"containers/App.tsx":[function(require,module,exports) {
+},{"@emotion/core":"../node_modules/@emotion/core/dist/core.browser.esm.js","@blueprintjs/core":"../node_modules/@blueprintjs/core/lib/esm/index.js","@blueprintjs/icons":"../node_modules/@blueprintjs/icons/lib/esm/index.js","react":"../node_modules/react/index.js"}],"api/quotations.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.fetchQuotations = async fetchDocId => {
+  const res = await fetch(`https://spreadsheets.google.com/feeds/cells/${fetchDocId}/1/public/full?alt=json`);
+  const data = await res.json();
+  const targetRows = data.feed.entry.filter(row => row.gs$cell.col == "1");
+  return targetRows.map(row => row.content.$t);
+};
+},{}],"hooks/fetchDocId.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const react_1 = require("react");
+
+const getFetchDocIdFromLS = () => localStorage.getItem("fetchDocId");
+
+const setFetchDocIdFromLS = value => {
+  if (value == null) {
+    localStorage.removeItem("fetchDocId");
+  } else {
+    localStorage.setItem("fetchDocId", value);
+  }
+};
+
+exports.useFetchDocId = () => {
+  const [fetchDocId, setFetchDocIdFromState] = react_1.useState(getFetchDocIdFromLS());
+
+  const setFetchDocId = value => {
+    setFetchDocIdFromState(value);
+    setFetchDocIdFromLS(value);
+  };
+
+  return [fetchDocId, setFetchDocId];
+};
+},{"react":"../node_modules/react/index.js"}],"containers/App.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -61645,6 +61687,10 @@ const QuotationBox_1 = require("./QuotationBox");
 
 const FetchDocIdForm_1 = require("./FetchDocIdForm");
 
+const quotations_1 = require("../api/quotations");
+
+const fetchDocId_1 = require("../hooks/fetchDocId");
+
 const globalStyle = core_1.css`
   body {
     background-color: ${core_2.Colors.LIGHT_GRAY5};
@@ -61663,26 +61709,10 @@ const shuffleButtonStyle = core_1.css`
 
 exports.App = props => {
   const [picked, setPicked] = react_1.useState(props.dataStore.pick());
-  const [fetchDocId, setFetchDocId] = react_1.useState(localStorage.getItem("fetchDocId"));
+  const [fetchDocId, setFetchDocId] = fetchDocId_1.useFetchDocId();
+  const shuffleOnClick = react_1.useCallback(() => setPicked(props.dataStore.pick()), []);
 
-  const shuffleOnClick = () => setPicked(props.dataStore.pick());
-
-  const setFetchDocIdWithLocalStorage = value => {
-    if (value == null) {
-      localStorage.removeItem("fetchDocId");
-    } else {
-      localStorage.setItem("fetchDocId", value);
-    }
-
-    setFetchDocId(value);
-  };
-
-  const resetFetchDocId = () => setFetchDocIdWithLocalStorage(null);
-
-  const extractDataFormDoc = data => {
-    const targetRows = data.feed.entry.filter(row => row.gs$cell.col == "1");
-    return targetRows.map(row => row.content.$t);
-  };
+  const resetFetchDocId = () => setFetchDocId(null);
 
   const saveDataToLocalStorage = values => {
     localStorage.setItem("dataCache", values.join("|||"));
@@ -61700,7 +61730,7 @@ exports.App = props => {
     setPicked(props.dataStore.pick());
 
     if (fetchDocId) {
-      fetch(`https://spreadsheets.google.com/feeds/cells/${fetchDocId}/1/public/full?alt=json`).then(res => res.json()).then(data => extractDataFormDoc(data)).then(data => saveDataToLocalStorage(data)).then(data => props.dataStore.update(data)).then(() => props.dataStore.pick() === "Now loading..." ? setPicked(props.dataStore.pick()) : null);
+      quotations_1.fetchQuotations(fetchDocId).then(data => saveDataToLocalStorage(data)).then(data => props.dataStore.update(data)).then(() => props.dataStore.pick() === "Now loading..." ? setPicked(props.dataStore.pick()) : null);
     }
   }, [props.dataStore, setPicked, fetchDocId]);
   return core_1.jsx("section", null, core_1.jsx(core_2.Navbar, {
@@ -61710,14 +61740,14 @@ exports.App = props => {
     align: core_2.Alignment.LEFT
   }, core_1.jsx(core_2.Navbar.Heading, null, "Lucky"), core_1.jsx(core_2.Button, {
     minimal: true,
-    icon: icons_1.IconNames.RESET,
+    icon: icons_1.IconNames.EDIT,
     onClick: resetFetchDocId
   }))), core_1.jsx(core_1.Global, {
     styles: globalStyle
   }), fetchDocId ? core_1.jsx(QuotationBox_1.QuotationBox, {
     text: picked
   }) : core_1.jsx(FetchDocIdForm_1.FetchDocIdForm, {
-    setFetchDocId: setFetchDocIdWithLocalStorage
+    setFetchDocId: setFetchDocId
   }), core_1.jsx(core_2.Button, {
     rightIcon: icons_1.IconNames.RANDOM,
     large: true,
@@ -61727,7 +61757,7 @@ exports.App = props => {
     text: "Next"
   }));
 };
-},{"react":"../node_modules/react/index.js","@emotion/core":"../node_modules/@emotion/core/dist/core.browser.esm.js","@blueprintjs/core":"../node_modules/@blueprintjs/core/lib/esm/index.js","@blueprintjs/icons":"../node_modules/@blueprintjs/icons/lib/esm/index.js","./QuotationBox":"containers/QuotationBox.tsx","./FetchDocIdForm":"containers/FetchDocIdForm.tsx"}],"DataStore.ts":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@emotion/core":"../node_modules/@emotion/core/dist/core.browser.esm.js","@blueprintjs/core":"../node_modules/@blueprintjs/core/lib/esm/index.js","@blueprintjs/icons":"../node_modules/@blueprintjs/icons/lib/esm/index.js","./QuotationBox":"containers/QuotationBox.tsx","./FetchDocIdForm":"containers/FetchDocIdForm.tsx","../api/quotations":"api/quotations.ts","../hooks/fetchDocId":"hooks/fetchDocId.ts"}],"DataStore.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -61831,7 +61861,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64154" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60573" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

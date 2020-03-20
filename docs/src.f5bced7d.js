@@ -375,24 +375,28 @@ var t=arguments[3];Object.defineProperty(exports,"__esModule",{value:!0}),export
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e=require("@emotion/core"),t=require("@blueprintjs/core"),o=require("@blueprintjs/icons"),r=require("react"),n=e.css`
   padding: 10px;
 `;exports.FetchDocIdForm=(s=>{const[c,u]=r.useState("");return e.jsx("section",{css:n},e.jsx(t.ControlGroup,null,e.jsx(t.InputGroup,{id:"text-input",fill:!0,placeholder:"google document id",value:c,onChange:e=>u(e.target.value)}),e.jsx(t.Button,{intent:t.Intent.PRIMARY,icon:o.IconNames.ARROW_RIGHT,onClick:()=>s.setFetchDocId(c)})))});
-},{"@emotion/core":"haMh","@blueprintjs/core":"vLFM","@blueprintjs/icons":"KzPL","react":"n8MK"}],"wQyl":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e=require("react"),t=require("@emotion/core"),o=require("@blueprintjs/core"),a=require("@blueprintjs/icons"),r=require("./QuotationBox"),c=require("./FetchDocIdForm"),l=t.css`
+},{"@emotion/core":"haMh","@blueprintjs/core":"vLFM","@blueprintjs/icons":"KzPL","react":"n8MK"}],"Jqdi":[function(require,module,exports) {
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.fetchQuotations=(async e=>{const t=await fetch(`https://spreadsheets.google.com/feeds/cells/${e}/1/public/full?alt=json`);return(await t.json()).feed.entry.filter(e=>"1"==e.gs$cell.col).map(e=>e.content.$t)});
+},{}],"wW0d":[function(require,module,exports) {
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e=require("react"),t=()=>localStorage.getItem("fetchDocId"),o=e=>{null==e?localStorage.removeItem("fetchDocId"):localStorage.setItem("fetchDocId",e)};exports.useFetchDocId=(()=>{const[c,r]=e.useState(t());return[c,e=>{r(e),o(e)}]});
+},{"react":"n8MK"}],"wQyl":[function(require,module,exports) {
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const t=require("react"),e=require("@emotion/core"),o=require("@blueprintjs/core"),a=require("@blueprintjs/icons"),r=require("./QuotationBox"),i=require("./FetchDocIdForm"),c=require("../api/quotations"),s=require("../hooks/fetchDocId"),n=e.css`
   body {
     background-color: ${o.Colors.LIGHT_GRAY5};
     font-size: 16px;
     padding-top: 50px;
     padding-bottom: 50px;
   }
-`,n=t.css`
+`,l=e.css`
   position: fixed;
   bottom: 0;
   width: 100%;
   height: 50px;
   border-radius: 0;
-`;exports.App=(s=>{const[i,d]=e.useState(s.dataStore.pick()),[u,p]=e.useState(localStorage.getItem("fetchDocId")),g=e=>{null==e?localStorage.removeItem("fetchDocId"):localStorage.setItem("fetchDocId",e),p(e)};return e.useEffect(()=>{let e=["Now loading..."];localStorage.getItem("dataCache")&&(e=localStorage.getItem("dataCache").split("|||")),s.dataStore.update(e),d(s.dataStore.pick()),u&&fetch(`https://spreadsheets.google.com/feeds/cells/${u}/1/public/full?alt=json`).then(e=>e.json()).then(e=>(e=>{return e.feed.entry.filter(e=>"1"==e.gs$cell.col).map(e=>e.content.$t)})(e)).then(e=>(e=>(localStorage.setItem("dataCache",e.join("|||")),e))(e)).then(e=>s.dataStore.update(e)).then(()=>"Now loading..."===s.dataStore.pick()?d(s.dataStore.pick()):null)},[s.dataStore,d,u]),t.jsx("section",null,t.jsx(o.Navbar,{className:"bp3-dark",fixedToTop:!0},t.jsx(o.Navbar.Group,{align:o.Alignment.LEFT},t.jsx(o.Navbar.Heading,null,"Lucky"),t.jsx(o.Button,{minimal:!0,icon:a.IconNames.RESET,onClick:()=>g(null)}))),t.jsx(t.Global,{styles:l}),u?t.jsx(r.QuotationBox,{text:i}):t.jsx(c.FetchDocIdForm,{setFetchDocId:g}),t.jsx(o.Button,{rightIcon:a.IconNames.RANDOM,large:!0,intent:o.Intent.PRIMARY,onClick:()=>d(s.dataStore.pick()),css:n,text:"Next"}))});
-},{"react":"n8MK","@emotion/core":"haMh","@blueprintjs/core":"vLFM","@blueprintjs/icons":"KzPL","./QuotationBox":"Aymg","./FetchDocIdForm":"xJHS"}],"I6ry":[function(require,module,exports) {
+`;exports.App=(d=>{const[u,p]=t.useState(d.dataStore.pick()),[x,h]=s.useFetchDocId(),g=t.useCallback(()=>p(d.dataStore.pick()),[]);return t.useEffect(()=>{let t=["Now loading..."];localStorage.getItem("dataCache")&&(t=localStorage.getItem("dataCache").split("|||")),d.dataStore.update(t),p(d.dataStore.pick()),x&&c.fetchQuotations(x).then(t=>(t=>(localStorage.setItem("dataCache",t.join("|||")),t))(t)).then(t=>d.dataStore.update(t)).then(()=>"Now loading..."===d.dataStore.pick()?p(d.dataStore.pick()):null)},[d.dataStore,p,x]),e.jsx("section",null,e.jsx(o.Navbar,{className:"bp3-dark",fixedToTop:!0},e.jsx(o.Navbar.Group,{align:o.Alignment.LEFT},e.jsx(o.Navbar.Heading,null,"Lucky"),e.jsx(o.Button,{minimal:!0,icon:a.IconNames.EDIT,onClick:()=>h(null)}))),e.jsx(e.Global,{styles:n}),x?e.jsx(r.QuotationBox,{text:u}):e.jsx(i.FetchDocIdForm,{setFetchDocId:h}),e.jsx(o.Button,{rightIcon:a.IconNames.RANDOM,large:!0,intent:o.Intent.PRIMARY,onClick:g,css:l,text:"Next"}))});
+},{"react":"n8MK","@emotion/core":"haMh","@blueprintjs/core":"vLFM","@blueprintjs/icons":"KzPL","./QuotationBox":"Aymg","./FetchDocIdForm":"xJHS","../api/quotations":"Jqdi","../hooks/fetchDocId":"wW0d"}],"I6ry":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});class t{constructor(){this.quotations=[],this.queue=[]}update(t){this.quotations=t,this.shuffle()}pick(){return 0===this.queue.length&&this.shuffle(),this.queue.pop()}shuffle(){const t=this.quotations.map(t=>[t,Math.random()]);t.sort(([t,s],[e,o])=>s-o),this.queue=t.map(([t,s])=>t)}pickIdx(){const t=this.quotations.length;return Math.floor(Math.random()*Math.floor(t))}}exports.DataStore=t;
 },{}],"zo2T":[function(require,module,exports) {
 "use strict";var e=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(exports,"__esModule",{value:!0});const t=e(require("react")),r=require("react-dom"),o=require("~containers/App"),a=require("~DataStore"),u=document.getElementById("root"),n=new a.DataStore;function d(){r.render(t.default.createElement(o.App,{dataStore:n}),u)}n.update(["Now loading..."]),d(),module.hot&&module.hot.accept(d);
 },{"react":"n8MK","react-dom":"jgeU","~containers/App":"wQyl","~DataStore":"I6ry"}]},{},["zo2T"], null)
-//# sourceMappingURL=src.8a2591ca.js.map
+//# sourceMappingURL=src.f5bced7d.js.map
