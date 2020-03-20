@@ -8,6 +8,8 @@ import { IconNames } from "@blueprintjs/icons";
 import { QuotationBox } from "./QuotationBox";
 import { FetchDocIdForm } from "./FetchDocIdForm";
 
+import { fetchQuotations } from "../api/quotations";
+
 import { DataStore } from "~DataStore";
 
 const globalStyle = css`
@@ -44,12 +46,6 @@ export const App = (props: { dataStore: DataStore }) => {
     setFetchDocId(value);
   };
   const resetFetchDocId = () => setFetchDocIdWithLocalStorage(null);
-  const extractDataFormDoc = (data: any) => {
-    const targetRows = data.feed.entry.filter(
-      (row: any) => row.gs$cell.col == "1",
-    );
-    return targetRows.map((row: any) => row.content.$t);
-  };
   const saveDataToLocalStorage = (values: string[]): string[] => {
     localStorage.setItem("dataCache", values.join("|||"));
     return values;
@@ -63,11 +59,7 @@ export const App = (props: { dataStore: DataStore }) => {
     props.dataStore.update(initData);
     setPicked(props.dataStore.pick());
     if (fetchDocId) {
-      fetch(
-        `https://spreadsheets.google.com/feeds/cells/${fetchDocId}/1/public/full?alt=json`,
-      )
-        .then(res => res.json())
-        .then(data => extractDataFormDoc(data))
+      fetchQuotations(fetchDocId)
         .then(data => saveDataToLocalStorage(data))
         .then(data => props.dataStore.update(data))
         .then(() =>
