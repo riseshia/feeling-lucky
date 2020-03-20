@@ -50,7 +50,7 @@ export const App = (props: { dataStore: DataStore }) => {
     );
     return targetRows.map((row: any) => row.content.$t);
   };
-  const saveDataToLocalStorage = (values: Array[string]): Array[string] => {
+  const saveDataToLocalStorage = (values: string[]): string[] => {
     localStorage.setItem("dataCache", values.join("|||"));
     return values;
   };
