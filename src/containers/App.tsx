@@ -30,7 +30,7 @@ const dataStore = new DataStore();
 export const App = () => {
   const [picked, setPicked] = useState("Now loading...");
   const fetchDocId = getFetchDocId();
-  
+
   const saveDataToLocalStorage = (values: string[]): string[] => {
     localStorage.setItem("dataCache", values.join("|||"));
     return values;
@@ -60,18 +60,23 @@ export const App = () => {
       <Navbar className="bp3-dark" fixedToTop>
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>Lucky</Navbar.Heading>
-          <RouteContext.Consumer>
-            {
-              ({ routePage }) => {
+          {fetchDocId ? (
+            <RouteContext.Consumer>
+              {({ routePage }) => {
                 const resetFetchDocId = () => {
                   setFetchDocId(null);
                   routePage("App");
                 };
-                return <Button minimal icon={IconNames.EDIT} onClick={resetFetchDocId} />;
-              }
-            }
-          </RouteContext.Consumer>
-          
+                return (
+                  <Button
+                    minimal
+                    icon={IconNames.EDIT}
+                    onClick={resetFetchDocId}
+                  />
+                );
+              }}
+            </RouteContext.Consumer>
+          ) : null}
         </Navbar.Group>
       </Navbar>
       <Global styles={globalStyle} />
