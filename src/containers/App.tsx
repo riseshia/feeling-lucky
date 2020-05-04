@@ -13,6 +13,7 @@ import { fetchQuotations } from "../api/quotations";
 import { useFetchDocId } from "../hooks/fetchDocId";
 
 import { DataStore } from "~DataStore";
+import { RouteContext } from "~contexts/route-context";
 
 const globalStyle = css`
   body {
@@ -77,7 +78,11 @@ export const App = () => {
       {fetchDocId ? (
         <QuotationBox text={picked} />
       ) : (
-        <FetchDocIdForm />
+        <RouteContext.Consumer>
+          {({ routePage }) => (
+            <FetchDocIdForm routePage={routePage} />
+          )}
+        </RouteContext.Consumer>
       )}
       <Button
         rightIcon={IconNames.RANDOM}
