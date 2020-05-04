@@ -12,7 +12,8 @@ import { QuotationBox } from "./QuotationBox";
 import { FetchDocIdForm } from "./FetchDocIdForm";
 
 import { fetchQuotations } from "../api/quotations";
-import { useFetchDocId } from "../hooks/fetchDocId";
+
+import { getFetchDocId, setFetchDocId } from "~DocIdStore";
 
 const globalStyle = css`
   body {
@@ -28,7 +29,6 @@ const dataStore = new DataStore();
 
 export const App = () => {
   const [picked, setPicked] = useState("Now loading...");
-  const [getFetchDocId, setFetchDocId] = useFetchDocId();
   const fetchDocId = getFetchDocId();
 
   const resetFetchDocId = () => setFetchDocId(null);

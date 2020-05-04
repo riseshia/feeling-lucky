@@ -6,14 +6,13 @@ import { jsx, css } from "@emotion/core";
 import { ControlGroup, InputGroup, Button, Intent } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
-import { useFetchDocId } from "~hooks/fetchDocId";
+import { setFetchDocId } from "~DocIdStore";
 
 const formStyle = css`
   padding: 10px;
 `;
 
 export const FetchDocIdForm = ({ routePage }) => {
-  const [_fetchDocId, setFetchDocId] = useFetchDocId();
   const updateFetchDocId = () => {
     setFetchDocId(docId);
     routePage("App");
