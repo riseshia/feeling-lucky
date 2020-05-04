@@ -48,9 +48,9 @@ export const App = () => {
         .then(data => saveDataToLocalStorage(data))
         .then(data => dataStore.update(data))
         .then(() =>
-          dataStore.pick() === "Now loading..."
-            ? setPicked(dataStore.pick())
-            : null,
+          localStorage.getItem("dataCache")
+            ? null
+            : setPicked(dataStore.pick()),
         );
     }
   }, [setPicked, fetchDocId]);
