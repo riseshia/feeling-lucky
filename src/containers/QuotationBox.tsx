@@ -1,7 +1,16 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import { Card, Elevation } from "@blueprintjs/core";
+import { Card, Elevation, Button, Intent } from "@blueprintjs/core";
+import { IconNames } from "@blueprintjs/icons";
+
+const shuffleButtonStyle = css`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  border-radius: 0;
+`;
 
 const textStyle = css`
   p {
@@ -11,10 +20,25 @@ const textStyle = css`
   }
 `;
 
-export const QuotationBox = (props: { text: string }) => (
-  <Card interactive={false} elevation={Elevation.ZERO} css={textStyle}>
-    {props.text.split("\n").map((item, idx) => (
-      <p key={idx}>{item}</p>
-    ))}
-  </Card>
-);
+type Props = { text: string; shuffleOnClick: any };
+
+export const QuotationBox = (props: Props) => {
+  return (
+    <div>
+      <Card interactive={false} elevation={Elevation.ZERO} css={textStyle}>
+        {props.text.split("\n").map((item, idx) => (
+          <p key={idx}>{item}</p>
+        ))}
+      </Card>
+
+      <Button
+        rightIcon={IconNames.RANDOM}
+        large
+        intent={Intent.PRIMARY}
+        onClick={props.shuffleOnClick}
+        css={shuffleButtonStyle}
+        text="Next"
+      />
+    </div>
+  );
+};

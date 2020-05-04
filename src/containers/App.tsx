@@ -2,18 +2,17 @@
 import { useState, useEffect, useCallback } from "react";
 
 import { css, jsx, Global } from "@emotion/core";
-import { Button, Intent, Colors, Navbar, Alignment } from "@blueprintjs/core";
+import { Button, Colors, Navbar, Alignment } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
+
+import { DataStore } from "~DataStore";
+import { RouteContext } from "~contexts/route-context";
 
 import { QuotationBox } from "./QuotationBox";
 import { FetchDocIdForm } from "./FetchDocIdForm";
 
 import { fetchQuotations } from "../api/quotations";
-
 import { useFetchDocId } from "../hooks/fetchDocId";
-
-import { DataStore } from "~DataStore";
-import { RouteContext } from "~contexts/route-context";
 
 const globalStyle = css`
   body {
@@ -24,34 +23,26 @@ const globalStyle = css`
   }
 `;
 
-const shuffleButtonStyle = css`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 50px;
-  border-radius: 0;
-`;
-
 type Url = string | null;
+const dataStore = new DataStore();
 
 export const App = () => {
-  const dataStore = new DataStore();
-  const [picked, setPicked] = useState(dataStore.pick());
+  const [picked, setPicked] = useState("Now loading...");
   const [getFetchDocId, setFetchDocId] = useFetchDocId();
   const fetchDocId = getFetchDocId();
-  const shuffleOnClick = useCallback(() => setPicked(dataStore.pick()), []);
+
   const resetFetchDocId = () => setFetchDocId(null);
   const saveDataToLocalStorage = (values: string[]): string[] => {
     localStorage.setItem("dataCache", values.join("|||"));
     return values;
   };
+  const shuffleOnClick = useCallback(() => setPicked(dataStore.pick()), []);
 
   useEffect(() => {
-    let initData = ["Now loading..."];
     if (localStorage.getItem("dataCache")) {
-      initData = localStorage.getItem("dataCache")!.split("|||");
+      const initData = localStorage.getItem("dataCache")!.split("|||");
+      dataStore.update(initData);
     }
-    dataStore.update(initData);
     setPicked(dataStore.pick());
     if (fetchDocId) {
       fetchQuotations(fetchDocId)
@@ -63,7 +54,7 @@ export const App = () => {
             : null,
         );
     }
-  }, [dataStore, setPicked, fetchDocId]);
+  }, [setPicked, fetchDocId]);
 
   return (
     <section>
@@ -76,22 +67,12 @@ export const App = () => {
       <Global styles={globalStyle} />
 
       {fetchDocId ? (
-        <QuotationBox text={picked} />
+        <QuotationBox text={picked} shuffleOnClick={shuffleOnClick} />
       ) : (
         <RouteContext.Consumer>
-          {({ routePage }) => (
-            <FetchDocIdForm routePage={routePage} />
-          )}
+          {({ routePage }) => <FetchDocIdForm routePage={routePage} />}
         </RouteContext.Consumer>
       )}
-      <Button
-        rightIcon={IconNames.RANDOM}
-        large
-        intent={Intent.PRIMARY}
-        onClick={shuffleOnClick}
-        css={shuffleButtonStyle}
-        text="Next"
-      />
     </section>
   );
 };
