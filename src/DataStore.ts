@@ -1,8 +1,10 @@
+const initQuotations: Array<string> = [];
+
 export class DataStore {
   quotations: Array<string>;
   queue: Array<string>;
   constructor() {
-    this.quotations = [];
+    this.quotations = initQuotations;
     this.queue = [];
   }
 

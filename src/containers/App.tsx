@@ -33,10 +33,11 @@ const shuffleButtonStyle = css`
 
 type Url = string | null;
 
-export const App = (props: { dataStore: DataStore }) => {
-  const [picked, setPicked] = useState(props.dataStore.pick());
+export const App = () => {
+  const dataStore = new DataStore();
+  const [picked, setPicked] = useState(dataStore.pick());
   const [fetchDocId, setFetchDocId] = useFetchDocId();
-  const shuffleOnClick = useCallback(() => setPicked(props.dataStore.pick()), []);
+  const shuffleOnClick = useCallback(() => setPicked(dataStore.pick()), []);
   const resetFetchDocId = () => setFetchDocId(null);
   const saveDataToLocalStorage = (values: string[]): string[] => {
     localStorage.setItem("dataCache", values.join("|||"));
@@ -48,19 +49,19 @@ export const App = (props: { dataStore: DataStore }) => {
     if (localStorage.getItem("dataCache")) {
       initData = localStorage.getItem("dataCache")!.split("|||");
     }
-    props.dataStore.update(initData);
-    setPicked(props.dataStore.pick());
+    dataStore.update(initData);
+    setPicked(dataStore.pick());
     if (fetchDocId) {
       fetchQuotations(fetchDocId)
         .then(data => saveDataToLocalStorage(data))
-        .then(data => props.dataStore.update(data))
+        .then(data => dataStore.update(data))
         .then(() =>
-          props.dataStore.pick() === "Now loading..."
-            ? setPicked(props.dataStore.pick())
+          dataStore.pick() === "Now loading..."
+            ? setPicked(dataStore.pick())
             : null,
         );
     }
-  }, [props.dataStore, setPicked, fetchDocId]);
+  }, [dataStore, setPicked, fetchDocId]);
 
   return (
     <section>
