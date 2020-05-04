@@ -12,7 +12,7 @@ const formStyle = css`
 export const FetchDocIdForm = (props: { setFetchDocId: any }) => {
   const [docId, setDocId] = useState("");
   const updateFetchDocId = () => props.setFetchDocId(docId);
-  const onChangeUrl = (event: any) => setDocId(event.target.value);
+  const onChangeUrl = (event: React.ChangeEvent<HTMLInputElement>) => setDocId(event.target.value);
 
   return (
     <section css={formStyle}>
