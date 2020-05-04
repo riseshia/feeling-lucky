@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-type Url = string | null;
-type SetFunction = (value: Url) => void;
+type DocId = string | null;
+type GetFunction = () => DocId;
+type SetFunction = (value: DocId) => void;
 
-const getFetchDocIdFromLS: () => Url = () => localStorage.getItem("fetchDocId");
-const setFetchDocIdFromLS: (value: Url) => void = (value: Url) => {
+const getFetchDocIdFromLS: () => DocId = () => localStorage.getItem("fetchDocId");
+const setFetchDocIdFromLS: (value: DocId) => void = (value: DocId) => {
   if (value == null) {
     localStorage.removeItem("fetchDocId");
   } else {
@@ -12,13 +13,6 @@ const setFetchDocIdFromLS: (value: Url) => void = (value: Url) => {
   }
 };
 
-export const useFetchDocId: () => [Url, SetFunction] = () => {
-  const [fetchDocId, setFetchDocIdFromState] = useState(getFetchDocIdFromLS());
-
-  const setFetchDocId = (value: Url) => {
-    setFetchDocIdFromState(value);
-    setFetchDocIdFromLS(value);
-  }
-
-  return [fetchDocId, setFetchDocId];
+export const useFetchDocId: () => [GetFunction, SetFunction] = () => {
+  return [getFetchDocIdFromLS, setFetchDocIdFromLS];
 }

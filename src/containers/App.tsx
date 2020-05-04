@@ -36,7 +36,8 @@ type Url = string | null;
 export const App = () => {
   const dataStore = new DataStore();
   const [picked, setPicked] = useState(dataStore.pick());
-  const [fetchDocId, setFetchDocId] = useFetchDocId();
+  const [getFetchDocId, setFetchDocId] = useFetchDocId();
+  const fetchDocId = getFetchDocId();
   const shuffleOnClick = useCallback(() => setPicked(dataStore.pick()), []);
   const resetFetchDocId = () => setFetchDocId(null);
   const saveDataToLocalStorage = (values: string[]): string[] => {
@@ -76,7 +77,7 @@ export const App = () => {
       {fetchDocId ? (
         <QuotationBox text={picked} />
       ) : (
-        <FetchDocIdForm setFetchDocId={setFetchDocId} />
+        <FetchDocIdForm />
       )}
       <Button
         rightIcon={IconNames.RANDOM}
