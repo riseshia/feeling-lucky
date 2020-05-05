@@ -27,9 +27,9 @@ type Url = string | null;
 const dataStore = new DataStore();
 
 type RouteInfo = {
-  currentPath: string,
-  routePath: React.Dispatch<React.SetStateAction<string>>
-}
+  currentPath: string;
+  routePath: React.Dispatch<React.SetStateAction<string>>;
+};
 
 export const App = ({ routeInfo }) => {
   const [picked, setPicked] = useState("Now loading...");
@@ -68,7 +68,9 @@ export const App = ({ routeInfo }) => {
   if (routeInfo.currentPath == "FetchDocIdForm") {
     targetComponent = <FetchDocIdForm routePath={routeInfo.routePath} />;
   } else {
-    targetComponent = <QuotationBox text={picked} shuffleOnClick={shuffleOnClick} />;
+    targetComponent = (
+      <QuotationBox text={picked} shuffleOnClick={shuffleOnClick} />
+    );
   }
 
   return (
@@ -76,11 +78,8 @@ export const App = ({ routeInfo }) => {
       <Navbar className="bp3-dark" fixedToTop>
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>Lucky</Navbar.Heading>
-          {fetchDocId ? (<Button
-                    minimal
-                    icon={IconNames.EDIT}
-                    onClick={resetFetchDocId}
-                  />
+          {fetchDocId ? (
+            <Button minimal icon={IconNames.EDIT} onClick={resetFetchDocId} />
           ) : null}
         </Navbar.Group>
       </Navbar>
