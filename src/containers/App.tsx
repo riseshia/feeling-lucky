@@ -27,7 +27,12 @@ const globalStyle = css`
 type Url = string | null;
 const dataStore = new DataStore();
 
-export const App = () => {
+type RouteInfo = {
+  currentPath: string,
+  routePath: React.Dispatch<React.SetStateAction<string>>
+}
+
+export const App = ({ routeInfo }) => {
   const [picked, setPicked] = useState("Now loading...");
   const fetchDocId = getFetchDocId();
 
@@ -55,39 +60,34 @@ export const App = () => {
     }
   }, [setPicked, fetchDocId]);
 
+  const resetFetchDocId = () => {
+    setFetchDocId(null);
+    routeInfo.routePath("FetchDocIdForm");
+  };
+
+  let targetComponent = null;
+  if (routeInfo.currentPath == "FetchDocIdForm") {
+    targetComponent = <FetchDocIdForm routePath={routeInfo.routePath} />;
+  } else {
+    targetComponent = <QuotationBox text={picked} shuffleOnClick={shuffleOnClick} />;
+  }
+
   return (
     <section>
       <Navbar className="bp3-dark" fixedToTop>
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>Lucky</Navbar.Heading>
-          {fetchDocId ? (
-            <RouteContext.Consumer>
-              {({ routePage }) => {
-                const resetFetchDocId = () => {
-                  setFetchDocId(null);
-                  routePage("App");
-                };
-                return (
-                  <Button
+          {fetchDocId ? (<Button
                     minimal
                     icon={IconNames.EDIT}
                     onClick={resetFetchDocId}
                   />
-                );
-              }}
-            </RouteContext.Consumer>
           ) : null}
         </Navbar.Group>
       </Navbar>
       <Global styles={globalStyle} />
 
-      {fetchDocId ? (
-        <QuotationBox text={picked} shuffleOnClick={shuffleOnClick} />
-      ) : (
-        <RouteContext.Consumer>
-          {({ routePage }) => <FetchDocIdForm routePage={routePage} />}
-        </RouteContext.Consumer>
-      )}
+      {targetComponent}
     </section>
   );
 };

@@ -12,10 +12,10 @@ const formStyle = css`
   padding: 10px;
 `;
 
-export const FetchDocIdForm = ({ routePage }) => {
+export const FetchDocIdForm = ({ routePath }) => {
   const updateFetchDocId = () => {
     setFetchDocId(docId);
-    routePage("App");
+    routePath("QuotationBox");
   };
 
   const [docId, setDocId] = useState("");
