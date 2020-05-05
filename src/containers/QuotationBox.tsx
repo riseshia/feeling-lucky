@@ -8,6 +8,7 @@ import { getFetchDocId } from "~DocIdStore";
 import { useState, useCallback, useEffect } from "react";
 import { fetchQuotations } from "~api/quotations";
 import { DataStore } from "~DataStore";
+import DataCacheStore from "~DataCacheStore";
 
 const shuffleButtonStyle = css`
   position: fixed;
@@ -33,37 +34,31 @@ const dataStore = new DataStore();
 
 export const QuotationBox = (props: Props) => {
   const { routeInfo } = props;
-  const [picked, setPicked] = useState("Now loading...");
   const fetchDocId = getFetchDocId();
-
-  const saveDataToLocalStorage = (values: string[]): string[] => {
-    localStorage.setItem("dataCache", values.join("|||"));
-    return values;
-  };
-  const shuffleOnClick = useCallback(() => setPicked(dataStore.pick()), []);
-
-  useEffect(() => {
-    if (localStorage.getItem("dataCache")) {
-      const initData = localStorage.getItem("dataCache")!.split("|||");
-      dataStore.update(initData);
-    }
-    setPicked(dataStore.pick());
-    if (fetchDocId) {
-      fetchQuotations(fetchDocId)
-        .then(data => saveDataToLocalStorage(data))
-        .then(data => dataStore.update(data))
-        .then(() =>
-          localStorage.getItem("dataCache")
-            ? null
-            : setPicked(dataStore.pick()),
-        );
-    }
-  }, [fetchDocId]);
 
   if (routeInfo.currentPath == "QuotationBox" && !fetchDocId) {
     routeInfo.routePath("FetchDocIdForm");
-    return null;
   }
+
+  const [picked, setPicked] = useState("Now loading...");
+
+  const shuffleOnClick = useCallback(() => setPicked(dataStore.pick()), []);
+
+  useEffect(() => {
+    if (DataCacheStore.hasItems()) {
+      dataStore.update(DataCacheStore.getItems());
+    }
+    setPicked(dataStore.pick());
+    if (fetchDocId) {
+      fetchQuotations(fetchDocId).then(data => {
+        dataStore.update(data);
+        if (DataCacheStore.getItems().length == 0) {
+          setPicked(dataStore.pick());
+        }
+        DataCacheStore.saveItems(data);
+      });
+    }
+  }, [fetchDocId]);
 
   return (
     <div>
