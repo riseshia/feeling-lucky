@@ -20,7 +20,12 @@ const textStyle = css`
   }
 `;
 
-type Props = { text: string; shuffleOnClick: any };
+type RouteInfo = {
+  currentPath: string;
+  routePath: React.Dispatch<React.SetStateAction<string>>;
+};
+
+type Props = { text: string; shuffleOnClick: any; routeInfo: RouteInfo };
 
 export const QuotationBox = (props: Props) => {
   return (

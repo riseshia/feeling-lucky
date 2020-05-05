@@ -14,7 +14,7 @@ const chooseComponent = (routeInfo: RouteInfo) => {
 };
 
 export const Router = () => {
-  const [currentPath, setCurrentPath] = useState("App");
+  const [currentPath, setCurrentPath] = useState("QuotationBox");
   const routeInfo: RouteInfo = {
     currentPath: currentPath,
     routePath: setCurrentPath,

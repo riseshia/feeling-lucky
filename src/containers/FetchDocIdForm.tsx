@@ -6,19 +6,26 @@ import { jsx, css } from "@emotion/core";
 import { ControlGroup, InputGroup, Button, Intent } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
-import { setFetchDocId } from "~DocIdStore";
+import { getFetchDocId, setFetchDocId } from "~DocIdStore";
 
 const formStyle = css`
   padding: 10px;
 `;
 
-export const FetchDocIdForm = ({ routePath }) => {
+type RouteInfo = {
+  currentPath: string;
+  routePath: React.Dispatch<React.SetStateAction<string>>;
+};
+
+type Props = { routeInfo: RouteInfo };
+
+export const FetchDocIdForm = (props: Props) => {
   const updateFetchDocId = () => {
     setFetchDocId(docId);
-    routePath("QuotationBox");
+    props.routeInfo.routePath("QuotationBox");
   };
 
-  const [docId, setDocId] = useState("");
+  const [docId, setDocId] = useState(getFetchDocId() || "");
   const onChangeUrl = (event: React.ChangeEvent<HTMLInputElement>) =>
     setDocId(event.target.value);
 

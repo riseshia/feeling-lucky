@@ -30,8 +30,11 @@ type RouteInfo = {
   currentPath: string;
   routePath: React.Dispatch<React.SetStateAction<string>>;
 };
+type Props = { routeInfo: RouteInfo };
 
-export const App = ({ routeInfo }) => {
+export const App = (props: Props) => {
+  const { routeInfo } = props;
+
   const [picked, setPicked] = useState("Now loading...");
   const fetchDocId = getFetchDocId();
 
@@ -66,10 +69,14 @@ export const App = ({ routeInfo }) => {
 
   let targetComponent = null;
   if (routeInfo.currentPath == "FetchDocIdForm") {
-    targetComponent = <FetchDocIdForm routePath={routeInfo.routePath} />;
+    targetComponent = <FetchDocIdForm routeInfo={routeInfo} />;
   } else {
     targetComponent = (
-      <QuotationBox text={picked} shuffleOnClick={shuffleOnClick} />
+      <QuotationBox
+        text={picked}
+        shuffleOnClick={shuffleOnClick}
+        routeInfo={routeInfo}
+      />
     );
   }
 
