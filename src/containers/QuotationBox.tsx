@@ -59,7 +59,7 @@ export const QuotationBox = (props: Props) => {
         DataCacheStore.saveItems(data);
       });
     }
-  }, [fetchDocId]);
+  }, []);
 
   return (
     <div>
