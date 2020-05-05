@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import { App } from "./App";
-import { RouteContext } from "~contexts/route-context";
 
 type RouteInfo = {
   currentPath: string,
@@ -21,14 +20,6 @@ export const Router = () => {
     routePath: setCurrentPath
   };
   const currentComponent = chooseComponent(routeInfo);
-  const routeContextValue = {
-    page: currentPath,
-    routePage: setCurrentPath,
-  };
 
-  return (
-    <RouteContext.Provider value={routeContextValue}>
-      {currentComponent}
-    </RouteContext.Provider>
-  );
+  return currentComponent;
 };
