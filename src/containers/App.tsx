@@ -64,6 +64,11 @@ export const App = (props: Props) => {
     routeInfo.routePath("FetchDocIdForm");
   };
 
+  if (routeInfo.currentPath == "QuotationBox" && !fetchDocId) {
+    routeInfo.routePath("FetchDocIdForm");
+    return null;
+  }
+
   let targetComponent = null;
   if (routeInfo.currentPath == "FetchDocIdForm") {
     targetComponent = <FetchDocIdForm routeInfo={routeInfo} />;
