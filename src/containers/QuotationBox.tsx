@@ -36,7 +36,8 @@ export const QuotationBox = (props: Props) => {
   const { routeInfo } = props;
   const fetchDocId = getFetchDocId();
 
-  if (routeInfo.currentPath == "QuotationBox" && !fetchDocId) {
+  if (!fetchDocId) {
+    DataCacheStore.remove();
     routeInfo.routePath("FetchDocIdForm");
   }
 

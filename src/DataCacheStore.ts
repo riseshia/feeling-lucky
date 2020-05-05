@@ -13,4 +13,8 @@ const hasItems = () => {
   return getItems().length > 0;
 };
 
-export default { getItems, saveItems, hasItems };
+const remove = () => {
+  localStorage.removeItem("dataCache");
+};
+
+export default { getItems, saveItems, hasItems, remove };
