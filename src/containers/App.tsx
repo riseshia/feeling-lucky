@@ -12,7 +12,7 @@ import { FetchDocIdForm } from "./FetchDocIdForm";
 
 import { fetchQuotations } from "../api/quotations";
 
-import { getFetchDocId, setFetchDocId } from "~DocIdStore";
+import { getFetchDocId } from "~DocIdStore";
 import { FLTypes } from "~types";
 
 const globalStyle = css`
@@ -59,8 +59,7 @@ export const App = (props: Props) => {
     }
   }, [setPicked, fetchDocId]);
 
-  const resetFetchDocId = () => {
-    setFetchDocId(null);
+  const routeToForm = () => {
     routeInfo.routePath("FetchDocIdForm");
   };
 
@@ -88,7 +87,7 @@ export const App = (props: Props) => {
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>Lucky</Navbar.Heading>
           {fetchDocId ? (
-            <Button minimal icon={IconNames.EDIT} onClick={resetFetchDocId} />
+            <Button minimal icon={IconNames.EDIT} onClick={routeToForm} />
           ) : null}
         </Navbar.Group>
       </Navbar>
