@@ -13,6 +13,7 @@ import { FetchDocIdForm } from "./FetchDocIdForm";
 import { fetchQuotations } from "../api/quotations";
 
 import { getFetchDocId, setFetchDocId } from "~DocIdStore";
+import { FLTypes } from "~types";
 
 const globalStyle = css`
   body {
@@ -26,11 +27,7 @@ const globalStyle = css`
 type Url = string | null;
 const dataStore = new DataStore();
 
-type RouteInfo = {
-  currentPath: string;
-  routePath: React.Dispatch<React.SetStateAction<string>>;
-};
-type Props = { routeInfo: RouteInfo };
+type Props = { routeInfo: FLTypes.RouteInfo };
 
 export const App = (props: Props) => {
   const { routeInfo } = props;

@@ -3,6 +3,7 @@
 import { jsx, css } from "@emotion/core";
 import { Card, Elevation, Button, Intent } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
+import { FLTypes } from "~types";
 
 const shuffleButtonStyle = css`
   position: fixed;
@@ -20,12 +21,11 @@ const textStyle = css`
   }
 `;
 
-type RouteInfo = {
-  currentPath: string;
-  routePath: React.Dispatch<React.SetStateAction<string>>;
+type Props = {
+  text: string;
+  shuffleOnClick: any;
+  routeInfo: FLTypes.RouteInfo;
 };
-
-type Props = { text: string; shuffleOnClick: any; routeInfo: RouteInfo };
 
 export const QuotationBox = (props: Props) => {
   return (

@@ -7,17 +7,13 @@ import { ControlGroup, InputGroup, Button, Intent } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
 import { getFetchDocId, setFetchDocId } from "~DocIdStore";
+import { FLTypes } from "~types";
 
 const formStyle = css`
   padding: 10px;
 `;
 
-type RouteInfo = {
-  currentPath: string;
-  routePath: React.Dispatch<React.SetStateAction<string>>;
-};
-
-type Props = { routeInfo: RouteInfo };
+type Props = { routeInfo: FLTypes.RouteInfo };
 
 export const FetchDocIdForm = (props: Props) => {
   const updateFetchDocId = () => {
