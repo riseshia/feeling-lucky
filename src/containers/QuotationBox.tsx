@@ -4,6 +4,10 @@ import { jsx, css } from "@emotion/core";
 import { Card, Elevation, Button, Intent } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { FLTypes } from "~types";
+import { getFetchDocId } from "~DocIdStore";
+import { useState, useCallback, useEffect } from "react";
+import { fetchQuotations } from "~api/quotations";
+import { DataStore } from "~DataStore";
 
 const shuffleButtonStyle = css`
   position: fixed;
@@ -22,16 +26,49 @@ const textStyle = css`
 `;
 
 type Props = {
-  text: string;
-  shuffleOnClick: any;
   routeInfo: FLTypes.RouteInfo;
 };
 
+const dataStore = new DataStore();
+
 export const QuotationBox = (props: Props) => {
+  const { routeInfo } = props;
+  const [picked, setPicked] = useState("Now loading...");
+  const fetchDocId = getFetchDocId();
+
+  const saveDataToLocalStorage = (values: string[]): string[] => {
+    localStorage.setItem("dataCache", values.join("|||"));
+    return values;
+  };
+  const shuffleOnClick = useCallback(() => setPicked(dataStore.pick()), []);
+
+  useEffect(() => {
+    if (localStorage.getItem("dataCache")) {
+      const initData = localStorage.getItem("dataCache")!.split("|||");
+      dataStore.update(initData);
+    }
+    setPicked(dataStore.pick());
+    if (fetchDocId) {
+      fetchQuotations(fetchDocId)
+        .then(data => saveDataToLocalStorage(data))
+        .then(data => dataStore.update(data))
+        .then(() =>
+          localStorage.getItem("dataCache")
+            ? null
+            : setPicked(dataStore.pick()),
+        );
+    }
+  }, [fetchDocId]);
+
+  if (routeInfo.currentPath == "QuotationBox" && !fetchDocId) {
+    routeInfo.routePath("FetchDocIdForm");
+    return null;
+  }
+
   return (
     <div>
       <Card interactive={false} elevation={Elevation.ZERO} css={textStyle}>
-        {props.text.split("\n").map((item, idx) => (
+        {picked.split("\n").map((item, idx) => (
           <p key={idx}>{item}</p>
         ))}
       </Card>
@@ -40,7 +77,7 @@ export const QuotationBox = (props: Props) => {
         rightIcon={IconNames.RANDOM}
         large
         intent={Intent.PRIMARY}
-        onClick={props.shuffleOnClick}
+        onClick={shuffleOnClick}
         css={shuffleButtonStyle}
         text="Next"
       />
